@@ -1,21 +1,16 @@
 package pipeline
+import packages.Ruby
+import packages.Packer
+import javaposse.jobdsl.dsl.DslFactory
+import javaposse.jobdsl.dsl.Job
 
 class Pipeline {
 
   Packer packer
-  Deploy deploy
+//  Deploy deploy
 
-  void packRuby(){
-    packer.ruby(this)
+  void createPackage(DslFactory dslFactory){
+    packer.Package(dslFactory)
   }
 
-  void deployStaging(){
-    deploy.environment = "staging"
-    deploy.deb(this)
-  }
-
-  void deployStaging(){
-    deploy.environment = "production"
-    deploy.deb(this)
-  }
 }

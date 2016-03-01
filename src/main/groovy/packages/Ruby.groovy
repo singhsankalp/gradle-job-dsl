@@ -7,12 +7,12 @@ import utils.AptRepo
 import javaposse.jobdsl.dsl.DslFactory
 import javaposse.jobdsl.dsl.Job
 
-class RailsPackage {
+class Ruby implements Packer {
 
-  String location
   String app
-  String downstream
   String scm
+  String location
+  String downstream
 
   Job Package(DslFactory dslFactory) {
 

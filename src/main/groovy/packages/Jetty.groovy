@@ -6,7 +6,7 @@ import utils.Slack
 import javaposse.jobdsl.dsl.DslFactory
 import javaposse.jobdsl.dsl.Job
 
-class JettyPackage {
+class JettyPackage implements Packer {
 
   String app
   String downstream
