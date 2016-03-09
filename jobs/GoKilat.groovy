@@ -11,25 +11,24 @@ gokilatPackage = new Ruby(
   downstream: "GoKilat/GoKilat/StagingDeploy"
 )
 
-//gokilatDeployConfig = [
-//  name: "GoKilat",
-//  haproxyBackend: "nil",
-//  maxFailPercentage: "50",
-//  query: "roles:stan_marsh AND chef_environment:production AND name:p-jetty-bid*",
-//  haproxyQuery: "nil",
-//  recipe: "app"
-//]
-//gokilatDeploy = new Deploy(
-//  app: app,
-//  jobLocation: "GoKilat/GoKilat/StagingDeploy",
-//  environment: "internal",
-//  LinkedHashMap: gokilatDeployConfig
-//)
+gokilatDeployConfig = [
+  name: "GoKilat",
+  haproxyBackend: "nil",
+  maxFailPercentage: "50",
+  haproxyQuery: "nil",
+  recipe: "app"
+]
+gokilatDeploy = new Deploy(
+  app: app,
+  jobLocation: "GoKilat/GoKilat/StagingDeploy",
+  environment: "internal",
+  appDeployConfig: gokilatDeployConfig
+)
 
 gokilatPipeline = new Pipeline(
-  packer: gokilatPackage
-//  deploy: gokilatDeploy
+  packer: gokilatPackage,
+  deploy: gokilatDeploy
 )
 
 gokilatPipeline.createPackage(this)
-//gokilatPipeline.deployStaging(this)
+gokilatPipeline.deployApp(this)
