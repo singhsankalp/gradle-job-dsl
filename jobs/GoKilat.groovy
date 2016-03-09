@@ -1,5 +1,5 @@
 import packages.Ruby
-import packages.Packer
+import deploy.DebDeploy
 import pipeline.Pipeline
 
 String app = 'go_kilat'
@@ -18,7 +18,7 @@ gokilatDeployConfig = [
   haproxyQuery: "nil",
   recipe: "app"
 ]
-gokilatDeploy = new Deploy(
+gokilatDeploy = new DebDeploy(
   app: app,
   jobLocation: "GoKilat/GoKilat/StagingDeploy",
   environment: "internal",
