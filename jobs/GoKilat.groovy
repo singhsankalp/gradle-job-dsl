@@ -21,7 +21,7 @@ gokilatDeployConfig = [
 gokilatDeploy = new DebDeploy(
   app: app,
   jobLocation: "GoKilat/GoKilat/StagingDeploy",
-  environment: "internal",
+  environment: "staging",
   appDeployConfig: gokilatDeployConfig
 )
 
