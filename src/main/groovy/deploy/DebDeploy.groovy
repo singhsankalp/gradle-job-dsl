@@ -36,18 +36,18 @@ class DebDeploy implements Deploy {
       }
       label('slave')
       steps {
-        shell('''
-            case $action in
-             "Deploy")
+        shell("""
+            case \$action in
+             \"Deploy\")
                 latestVersion=`curl http://i-apt-repository:8080/api/repos/gojek_apt_repo/packages?q=$deb_name | jq '' | grep $deb_name | awk '{print \$3}' | sort -n | tail -1`;
-                curl -L http://${this.etcd_server[environment]}:2379/v2/keys/$app/version -XPUT -d value=\$latestVersion;
-                QUERY="chef_environment:${this.environment} AND run_list:recipe\\[${this.app}\\:\\:${this.recipe}\\]" ansible-playbook -i inventory/chef deployment.yml -e "concurrency=${concurrencyPercentage} max_fail_percentage=${this.maxFailPercentage} haproxy_query=${this.haproxyQuery} haproxy_backend=${this.haproxyBackend} action=${action}"
+                curl -L http://\${this.etcd_server[environment]}:2379/v2/keys/\$app/version -XPUT -d value=\$latestVersion;
+                QUERY=\"chef_environment:$environment AND run_list:recipe\\[$app\\:\\:${appDeployConfig.recipe}\\]\" ansible-playbook -i inventory/chef deployment.yml -e \"concurrency=\$concurrencyPercentage max_fail_percentage=${appDeployConfig.maxFailPercentage} haproxy_query=${appDeployConfig.haproxyQuery} haproxy_backend=${appDeployConfig.haproxyBackend} action=\$action\"
                 ;;
-             "restarted")
-                QUERY="chef_environment:${this.environment} AND run_list:recipe\\[${this.app}\\:\\:${this.recipe}\\]" ansible-playbook -i inventory/chef deployment.yml -e "concurrency=${concurrencyPercentage} max_fail_percentage=${this.maxFailPercentage} haproxy_query=${this.haproxyQuery} haproxy_backend=${this.haproxyBackend} action=${action}"
+             \"restarted\")
+                QUERY=\"chef_environment:$environment AND run_list:recipe\\[$app\\:\\:${appDeployConfig.recipe}\\]\" ansible-playbook -i inventory/chef deployment.yml -e \"concurrency=\$concurrencyPercentage max_fail_percentage=${appDeployConfig.maxFailPercentage} haproxy_query=${appDeployConfig.haproxyQuery} haproxy_backend=${appDeployConfig.haproxyBackend} action=\$action\"
                 ;;
              esac
-           ''')
+           """)
       }
       publishers {
         Slack.integrate delegate

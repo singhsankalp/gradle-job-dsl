@@ -20,7 +20,7 @@ class Ruby implements Packer {
 
       LogRotate.integrate delegate
       scm {
-        Scm.git delegate, "${this.scm}"
+        Scm.git delegate, "${scm}"
       }
 
       label('slave')
@@ -35,7 +35,7 @@ class Ruby implements Packer {
 
       publishers {
         Slack.integrate delegate
-        downstream("${this.downstream}", 'SUCCESS')
+        downstream("${downstream}", 'SUCCESS')
         archiveArtifacts {
           pattern("*.deb")
           onlyIfSuccessful()
