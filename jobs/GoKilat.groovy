@@ -30,5 +30,4 @@ gokilatPipeline = new Pipeline(
   deploy: gokilatDeploy
 )
 
-gokilatPipeline.createPackage(this)
-gokilatPipeline.deployApp(this)
+gokilatPipeline.createPackage(this).deployApp(this)

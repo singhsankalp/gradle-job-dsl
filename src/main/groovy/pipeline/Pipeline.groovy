@@ -9,11 +9,13 @@ class Pipeline {
   Packer packer
   Deploy deploy
 
-  void createPackage(DslFactory dslFactory){
+  Pipeline createPackage(DslFactory dslFactory){
     packer.Package(dslFactory)
+    return this
   }
 
-  void deployApp(DslFactory dslFactory){
+  Pipeline deployApp(DslFactory dslFactory){
     deploy.Setup(dslFactory)
+    return this
   }
 }
