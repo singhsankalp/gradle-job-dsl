@@ -1,6 +1,7 @@
 import packages.Ruby
 import deploy.DebDeploy
 import pipeline.Pipeline
+import utils.BuildPipelineViewWrapper
 
 String app = 'go_kilat'
 
@@ -25,9 +26,16 @@ gokilatDeploy = new DebDeploy(
   appDeployConfig: gokilatDeployConfig
 )
 
-gokilatPipeline = new Pipeline(
-  packer: gokilatPackage,
-  deploy: gokilatDeploy
+pipelineView = new BuildPipelineViewWrapper(
+  appPath: "GoKilat/GoKilat",
+  selectJob: "GoKilat/GoKilat/Specs",
+  app: "GoKilat"
 )
 
-gokilatPipeline.createPackage(this).deployApp(this)
+gokilatPipeline = new Pipeline(
+  packer: gokilatPackage,
+  deploy: gokilatDeploy,
+  pipelineView: pipelineView
+)
+
+gokilatPipeline.createPackage(this).deployApp(this).buildView(this)
