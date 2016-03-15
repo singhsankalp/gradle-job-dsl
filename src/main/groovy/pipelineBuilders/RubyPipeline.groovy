@@ -1,5 +1,6 @@
 package pipelineBuilders
 import specs.RubySpecs
+import docs.AppDocs
 import packages.Ruby
 import deploy.DebDeploy
 import pipeline.Pipeline
@@ -9,32 +10,37 @@ class RubyPipeline {
 
   static Pipeline build(LinkedHashMap applicationConfig){
 
-    RubySpecs gokilatTest = new RubySpecs(
+    RubySpecs appTest = new RubySpecs(
       scm: applicationConfig.appRepoURL,
       location: applicationConfig.pipelineLocation,
       downstreamJobs: applicationConfig.testDownstream,
       artifactPattern: applicationConfig.testArtifact
     )
 
-    Ruby gokilatPackage = new Ruby(
+    AppDocs appDocs = new AppDocs(
+      app: applicationConfig.appName,
+      location: applicationConfig.pipelineLocation,
+    )
+
+    Ruby appPackage = new Ruby(
       app: applicationConfig.appName,
       scm: applicationConfig.appRepoURL,
       location: applicationConfig.pipelineLocation,
       downstream: "$applicationConfig.pipelineLocation/$applicationConfig.packageDownstream"
     )
 
-    LinkedHashMap gokilatDeployConfig = [
+    LinkedHashMap appDeployConfig = [
       name: applicationConfig.jobName,
       haproxyBackend: applicationConfig.haproxyBackend,
       maxFailPercentage: applicationConfig.maxFailPercentage,
       haproxyQuery: applicationConfig.haproxyQuery,
       recipe: applicationConfig.recipe
     ]
-    DebDeploy gokilatDeploy = new DebDeploy(
+    DebDeploy appDeploy = new DebDeploy(
       app: applicationConfig.appName,
       jobLocation: "$applicationConfig.pipelineLocation/StagingDeploy",
       environment: "staging",
-      appDeployConfig: gokilatDeployConfig
+      appDeployConfig: appDeployConfig
     )
 
     BuildPipelineViewWrapper pipelineView = new BuildPipelineViewWrapper(
@@ -43,12 +49,13 @@ class RubyPipeline {
       app: applicationConfig.jobName
     )
 
-    Pipeline gokilatPipeline = new Pipeline(
-      specs: gokilatTest,
-      packer: gokilatPackage,
-      deploy: gokilatDeploy,
+    Pipeline appPipeline = new Pipeline(
+      specs: appTest,
+      docs: appDocs,
+      packer: appPackage,
+      deploy: appDeploy,
       pipelineView: pipelineView
     )
-    return gokilatPipeline
+    return appPipeline
   }
 }

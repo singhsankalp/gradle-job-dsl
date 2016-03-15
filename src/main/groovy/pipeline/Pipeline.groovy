@@ -1,5 +1,6 @@
 package pipeline
 import specs.Specs
+import docs.DeployDocs
 import deploy.Deploy
 import packages.Packer
 import utils.BuildPipelineViewWrapper
@@ -9,12 +10,18 @@ import javaposse.jobdsl.dsl.Job
 class Pipeline {
 
   Specs specs
+  DeployDocs docs
   Packer packer
   Deploy deploy
   BuildPipelineViewWrapper pipelineView
 
   Pipeline buildSpecs(DslFactory dslFactory){
     specs.Build(dslFactory)
+    return this
+  }
+
+  Pipeline deployDocs(DslFactory dslFactory){
+    docs.Setup(dslFactory)
     return this
   }
 

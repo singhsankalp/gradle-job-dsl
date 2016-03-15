@@ -1,4 +1,5 @@
 import specs.RubySpecs
+import docs.AppDocs
 import packages.Ruby
 import deploy.DebDeploy
 import pipeline.Pipeline
@@ -22,4 +23,4 @@ gokilatPipelineConfig = [
 ]
 
 gokilatPipeline = RubyPipeline.build(gokilatPipelineConfig)
-gokilatPipeline.buildSpecs(this).createPackage(this).deployApp(this).buildView(this)
+gokilatPipeline.buildSpecs(this).deployDocs(this).createPackage(this).deployApp(this).buildView(this)
