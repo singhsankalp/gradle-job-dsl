@@ -1,4 +1,5 @@
 package pipelineBuilders
+import specs.RubySpecs
 import packages.Ruby
 import deploy.DebDeploy
 import pipeline.Pipeline
@@ -6,38 +7,44 @@ import utils.BuildPipelineViewWrapper
 
 class RubyPipeline {
 
-  static Pipeline build(){
+  static Pipeline build(LinkedHashMap applicationConfig){
 
-    String app = 'go_kilat'
+    RubySpecs gokilatTest = new RubySpecs(
+      scm: applicationConfig.appRepoURL,
+      location: applicationConfig.pipelineLocation,
+      downstreamJobs: applicationConfig.testDownstream,
+      artifactPattern: applicationConfig.testArtifact
+    )
 
     Ruby gokilatPackage = new Ruby(
-      app: app,
-      scm: "git@bitbucket.org:gojek/go-kilat.git",
-      location: "GoKilat/GoKilat",
-      downstream: "GoKilat/GoKilat/StagingDeploy"
+      app: applicationConfig.appName,
+      scm: applicationConfig.appRepoURL,
+      location: applicationConfig.pipelineLocation,
+      downstream: "$applicationConfig.pipelineLocation/$applicationConfig.packageDownstream"
     )
 
     LinkedHashMap gokilatDeployConfig = [
-      name: "GoKilat",
-      haproxyBackend: "nil",
-      maxFailPercentage: "50",
-      haproxyQuery: "nil",
-      recipe: "app"
+      name: applicationConfig.jobName,
+      haproxyBackend: applicationConfig.haproxyBackend,
+      maxFailPercentage: applicationConfig.maxFailPercentage,
+      haproxyQuery: applicationConfig.haproxyQuery,
+      recipe: applicationConfig.recipe
     ]
     DebDeploy gokilatDeploy = new DebDeploy(
-      app: app,
-      jobLocation: "GoKilat/GoKilat/StagingDeploy",
+      app: applicationConfig.appName,
+      jobLocation: "$applicationConfig.pipelineLocation/StagingDeploy",
       environment: "staging",
       appDeployConfig: gokilatDeployConfig
     )
 
     BuildPipelineViewWrapper pipelineView = new BuildPipelineViewWrapper(
-      appPath: "GoKilat/GoKilat",
-      selectJob: "GoKilat/GoKilat/Specs",
-      app: "GoKilat"
+      appPath: applicationConfig.pipelineLocation,
+      selectJob: "$applicationConfig.pipelineLocation/$applicationConfig.viewSelectJob",
+      app: applicationConfig.jobName
     )
 
     Pipeline gokilatPipeline = new Pipeline(
+      specs: gokilatTest,
       packer: gokilatPackage,
       deploy: gokilatDeploy,
       pipelineView: pipelineView
