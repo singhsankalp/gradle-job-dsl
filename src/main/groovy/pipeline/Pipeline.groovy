@@ -3,7 +3,7 @@ import specs.Specs
 import docs.DeployDocs
 import deploy.Deploy
 import packages.Packer
-import utils.BuildPipelineViewWrapper
+import views.PipelineView
 import javaposse.jobdsl.dsl.DslFactory
 import javaposse.jobdsl.dsl.Job
 
@@ -13,7 +13,7 @@ class Pipeline {
   DeployDocs docs
   Packer packer
   Deploy deploy
-  BuildPipelineViewWrapper pipelineView
+  PipelineView pipelineView
 
   Pipeline buildSpecs(DslFactory dslFactory){
     specs.Build(dslFactory)

@@ -4,7 +4,7 @@ import docs.AppDocs
 import packages.Ruby
 import deploy.DebDeploy
 import pipeline.Pipeline
-import utils.BuildPipelineViewWrapper
+import views.BuildPipelineViewWrapper
 
 class RubyPipeline {
 

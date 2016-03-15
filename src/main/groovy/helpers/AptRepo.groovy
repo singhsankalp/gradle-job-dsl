@@ -1,4 +1,4 @@
-package utils
+package helpers
 
 class AptRepo{
   static void includeDeb(context, debPackage, applicationName){

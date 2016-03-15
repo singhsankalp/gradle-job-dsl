@@ -1,4 +1,4 @@
-package utils
+package helpers
 
 class Scm {
   static void git(context, repo, targetDir='') {

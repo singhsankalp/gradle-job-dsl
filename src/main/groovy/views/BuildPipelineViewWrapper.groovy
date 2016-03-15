@@ -1,9 +1,9 @@
-package utils
+package views
 
 import javaposse.jobdsl.dsl.DslFactory
 import javaposse.jobdsl.dsl.views.BuildPipelineView
 
-class BuildPipelineViewWrapper {
+class BuildPipelineViewWrapper implements PipelineView {
   String appPath
   String selectJob
   String app

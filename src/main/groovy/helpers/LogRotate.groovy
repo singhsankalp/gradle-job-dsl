@@ -1,4 +1,4 @@
-package utils
+package helpers
 
 class LogRotate {
   static void integrate(context) {

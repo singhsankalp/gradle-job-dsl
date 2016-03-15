@@ -1,8 +1,6 @@
 package deploy
 
-import utils.Scm
-import utils.LogRotate
-import utils.Slack
+import helpers.*
 import javaposse.jobdsl.dsl.DslFactory
 import javaposse.jobdsl.dsl.Job
 

@@ -1,9 +1,4 @@
-import specs.RubySpecs
-import docs.AppDocs
-import packages.Ruby
-import deploy.DebDeploy
 import pipeline.Pipeline
-import utils.BuildPipelineViewWrapper
 import pipelineBuilders.RubyPipeline
 
 

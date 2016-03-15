@@ -1,4 +1,4 @@
-package utils
+package helpers
 
 class ZipToDeb{
   static void convert(context, zipPackage, debPackage){

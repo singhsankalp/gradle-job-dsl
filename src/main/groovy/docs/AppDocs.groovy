@@ -1,6 +1,6 @@
 package docs
 
-import utils.*
+import helpers.*
 import javaposse.jobdsl.dsl.DslFactory
 import javaposse.jobdsl.dsl.Job
 
